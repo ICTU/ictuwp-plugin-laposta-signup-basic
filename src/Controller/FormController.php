@@ -167,9 +167,9 @@ EOL;
                 $successTitleClass = esc_html(get_option(Plugin::OPTION_CLASS_SUCCESS_TITLE, ''));
                 $successTextClass = esc_html(get_option(Plugin::OPTION_CLASS_SUCCESS_TEXT, ''));
                 $successTitle = trim(esc_html(get_option(Plugin::OPTION_SUCCESS_TITLE)));
-                $successTitle = $successTitle ?: _x('Je bent aangemeld', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                $successTitle = $successTitle ?: _x('Je bent aangemeld!', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
                 $successText = trim(esc_html(get_option(Plugin::OPTION_SUCCESS_TEXT)));
-                $successText = $successText ?: _x('Je staat op de lijst.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                $successText = $successText ?: _x('Je staat op de lijst om de nieuwsbrief te ontvangen.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
                 $successText = nl2br($successText);
                 return $this->getRenderedTemplate('/form/form-success.php', [
                     'inlineCss' => $inlineCss,
