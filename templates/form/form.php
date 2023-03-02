@@ -2,6 +2,7 @@
 /**
  * @var string $listId (valid id)
  * @var array $listFields
+ * @var string $formID
  * @var string $formClass (sanitized)
  * @var string $fieldWrapperClass (sanitized)
  * @var string $labelClass (sanitized)
@@ -33,6 +34,8 @@
  * - Add aria-hidden to 'required' star
  * - Add `aria-describedby` pointing to error message on all required fields
  * - Add `aria-live="assertive"` to error messages
+ * - Add `formID` to Form and post `action` to anchor: `#$formID`
+ * - Hide honeypot field to AT with `aria-hidden="true"`
  * 
  * TODO:
  * - Add basic JS validation (email and empty only?)
@@ -45,11 +48,11 @@
         <?php echo $inlineCss ?>
     </style>
 <?php endif ?>
-<form class="<?php echo $formClass ?> lsb-list-id-<?php echo $listId ?>" method="post">
+<form id="<?php echo $formID ?>" action="#<?php echo $formID ?>" class="<?php echo $formClass ?> lsb-list-id-<?php echo $listId ?>" method="post">
 
     <?php if ($globalError): ?>
         <div class="lsb-form-global-error <?php echo $globalErrorClass ?>">
-            <p class="form-feedback-msg" aria-live="assertive"><?php echo $globalError ?></p>
+            <p class="form-feedback-msg"><?php echo $globalError ?></p>
         </div>
     <?php endif ?>
 
@@ -165,7 +168,7 @@
     <?php endforeach; ?>
 
     <?php $fieldName = "lsb[$listId][$fieldNameHoneypot]"; ?>
-    <input autocomplete="new-password" type="email" id="<?php echo $fieldName ?>" name="<?php echo $fieldName ?>" placeholder="Your work e-mail here" style="position:absolute;top:-9999px;left:-9999px;">
+    <input aria-hidden="true" autocomplete="new-password" type="email" id="<?php echo $fieldName ?>" name="<?php echo $fieldName ?>" placeholder="Your work e-mail here" style="position:absolute;top:-9999px;left:-9999px;">
 
     <?php $fieldName = "lsb[$listId][$fieldNameNonce]"; ?>
     <input type="hidden" name="<?php echo $fieldName ?>" value="<?php echo $nonce ?>">

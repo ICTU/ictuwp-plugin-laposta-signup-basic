@@ -46,6 +46,7 @@ class FormController extends BaseController
             $this->addAssets($addDefaultStyling, false);
             return $this->getRenderedTemplate('/form/form-error.php', [
                 'inlineCss' => $inlineCss,
+                'formID' => 'form-' . $listId,
                 'globalErrorClass' => $globalErrorClass,
                 'errorMessage' => $listFields['error']['message'],
             ]);
@@ -172,6 +173,7 @@ EOL;
                 $successText = nl2br($successText);
                 return $this->getRenderedTemplate('/form/form-success.php', [
                     'inlineCss' => $inlineCss,
+                    'formID' => 'form-' . $listId,
                     'successWrapperClass' => $successWrapperClass,
                     'successTitleClass' => $successTitleClass,
                     'successTextClass' => $successTextClass,
@@ -208,6 +210,7 @@ EOL;
         return $this->getRenderedTemplate('/form/form.php', [
             'listId' => $listId,
             'listFields' => $listFields,
+            'formID' => 'form-' . $listId,
             'formClass' => $formClass,
             'fieldWrapperClass' => $fieldWrapperClass,
             'labelClass' => $labelClass,

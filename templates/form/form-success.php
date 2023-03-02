@@ -1,5 +1,6 @@
 <?php
 /**
+ * @var string $formID
  * @var string $successWrapperClass (sanitized)
  * @var string $successTitleClass (sanitized)
  * @var string $successTextClass (sanitized)
@@ -15,7 +16,7 @@
     </style>
 <?php endif ?>
 
-<div class="lsb-success <?php echo $successWrapperClass ?>">
+<div id="<?php echo $formID ?>" class="lsb-success <?php echo $successWrapperClass ?>">
     <h2 class="lsb-success-title <?php echo $successTitleClass ?>"><?php echo $successTitle ?></h2>
     <p class="lsb-success-text <?php echo $successTitleClass ?>"><?php echo $successText ?></p>
 </div>
