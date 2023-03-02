@@ -1,0 +1,36 @@
+# Copyright (C) 2023 David Hund
+# This file is distributed under the BSD 2-Clause License.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Laposta Signup Basic (ICTU WP corrections) 1.3.0\n"
+"Report-Msgid-Bugs-To: https://github.com/ICTU/ictuwp-plugin-laposta-signup-basic\n"
+"POT-Creation-Date: 2023-03-02 14:46+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: David Hund <david.hund@ictu.nl>\n"
+"Language-Team: David Hund\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.2.2\n"
+"X-Domain: ictuwp-plugin-laposta-signup-basic\n"
+
+#. Plugin Name of the plugin
+msgid "Laposta Signup Basic (ICTU WP corrections)"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/ICTU/ictuwp-plugin-laposta-signup-basic"
+msgstr ""
+
+#. Description of the plugin
+msgid "(GC a11y improvements) Laposta is programma waarmee je gemakkelijk en snel nieuwsbrieven kunt maken en versturen. Met deze plugin kun je je aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met behulp van CSS."
+msgstr ""
+
+#. Author of the plugin
+msgid "David Hund"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "https://www.gebruikercentraal.nl"
+msgstr ""

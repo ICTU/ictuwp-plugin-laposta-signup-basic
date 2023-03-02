@@ -36,7 +36,7 @@ class FormController extends BaseController
             return $this->getRenderedTemplate('/form/form-error.php', [
                 'inlineCss' => $inlineCss,
                 'globalErrorClass' => $globalErrorClass,
-                'errorMessage' => 'list_id ontbreekt',
+                'errorMessage' => _x('list_id ontbreekt', 'ictuwp-plugin-laposta-signup-basic controller: error', 'gctheme'),
             ]);
         }
 
@@ -136,7 +136,7 @@ EOL;
             $validHoneypot = !isset($submittedFieldValues[self::FIELD_NAME_HONEYPOT]) || !$submittedFieldValues[self::FIELD_NAME_HONEYPOT];
             if (!$validNonce || !$validHoneypot) {
                 $hasErrors = true;
-                $globalError = 'Onbekende fout, probeer het nog eens';
+                $globalError = _x('Onbekende fout', 'ictuwp-plugin-laposta-signup-basic controller: error', 'gctheme');
             }
 
             // keep the actual api form field values
@@ -167,9 +167,9 @@ EOL;
                 $successTitleClass = esc_html(get_option(Plugin::OPTION_CLASS_SUCCESS_TITLE, ''));
                 $successTextClass = esc_html(get_option(Plugin::OPTION_CLASS_SUCCESS_TEXT, ''));
                 $successTitle = trim(esc_html(get_option(Plugin::OPTION_SUCCESS_TITLE)));
-                $successTitle = $successTitle ?: 'Succesvol aangemeld';
+                $successTitle = $successTitle ?: _x('Je bent aangemeld', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
                 $successText = trim(esc_html(get_option(Plugin::OPTION_SUCCESS_TEXT)));
-                $successText = $successText ?: 'Het aanmelden is gelukt.';
+                $successText = $successText ?: _x('Je staat op de lijst.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
                 $successText = nl2br($successText);
                 return $this->getRenderedTemplate('/form/form-success.php', [
                     'inlineCss' => $inlineCss,
@@ -188,10 +188,33 @@ EOL;
                     $fields = array_filter($listFields, function($field) use ($error) {
                         return $field['field_id'] === $error['id'];
                     });
+
+                    // Add an is_error property to the field
+                    // so that we can add inline error messages even with back-end validation
+                    $listFieldsCopy = array_map( function($field) use ($error, $globalError) {
+                        if ( $field['field_id'] === $error['id'] ) {
+                            if ( strpos( $globalError, 'be empty' ) !== 0 ) {
+                                $field['is_error'] = 'empty';
+                            } else {
+                                $field['is_error'] = 'invalid';
+                            }
+                        }
+                        return $field;
+                    }, $listFields);
+
+                    // So now we use $listFieldsCopy instead of $listFields
                     if ($fields) {
                         $field = reset($fields);
                         $fieldName = $field['name'];
-                        $globalError = "Er ging iets mis. Controleer het veld '{$fieldName}' en probeer het nog eens.";
+                        $fieldErrorPrefix = _x('Er ging iets mis.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                        if ( strpos( $globalError, 'be empty' ) !== 0 ) {
+                            $fieldErrorMessage = _x('moet ingevuld zijn.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                            $fieldErrorSuffix = _x('Vul het veld aan en probeer het opnieuw.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                        } elseif ( $field['is_email'] ) {
+                            $fieldErrorMessage = _x('moet een geldig e-mail adres zijn. B.v. \'naam@bedrijf.nl\'.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                            $fieldErrorSuffix = _x('Pas het veld aan en probeer het opnieuw.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme');
+                        }
+                        $globalError = "$fieldErrorPrefix '{$fieldName}' $fieldErrorMessage<br/>$fieldErrorSuffix";
                     }
                 } else {
                     $globalError = $e->getMessage();
@@ -204,12 +227,12 @@ EOL;
         }
 
         $submitButtonText = trim(esc_html(get_option(Plugin::OPTION_SUBMIT_BUTTON_TEXT)));
-        $submitButtonText = $submitButtonText ?: 'Aanmelden';
+        $submitButtonText = $submitButtonText ?: _x('Aanmelden', 'ictuwp-plugin-laposta-signup-basic form submitbutton default', 'gctheme');
 
         $this->addAssets($addDefaultStyling, $hasDateFields);
         return $this->getRenderedTemplate('/form/form.php', [
             'listId' => $listId,
-            'listFields' => $listFields,
+            'listFields' => $listFieldsCopy ?: $listFields,
             'formID' => 'form-' . $listId,
             'formClass' => $formClass,
             'fieldWrapperClass' => $fieldWrapperClass,
