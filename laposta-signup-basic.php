@@ -58,3 +58,12 @@ require_once 'src/Container/Container.php';
 $container = new Container();
 
 $plugin = $container->getPlugin();
+
+// add translation files
+add_action( 'init', 'gc_load_plugin_textdomain' );
+
+function gc_load_plugin_textdomain() {
+
+	load_plugin_textdomain( 'gctheme', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
+}

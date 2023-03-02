@@ -1,84 +1,99 @@
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Laposta Signup Basic (ICTU WP corrections)\n"
-"POT-Creation-Date: 2023-03-02 18:08+0100\n"
-"PO-Revision-Date: 2023-03-02 18:08+0100\n"
-"Last-Translator: Paul van Buuren <poedit@wbvb.nl>\n"
+"POT-Creation-Date: 2023-03-02 18:41+0100\n"
+"PO-Revision-Date: 2023-03-02 18:42+0100\n"
+"Last-Translator: David Hund <david@valuedstandards.com>\n"
 "Language-Team: Paul van Buuren <poedit@wbvb.nl>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: laposta-signup-basic.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 
 #: src/Controller/FormController.php:39
 msgctxt "ictuwp-plugin-laposta-signup-basic controller: error"
 msgid "list_id ontbreekt"
-msgstr ""
+msgstr "lijst ontbreekt"
 
 #: src/Controller/FormController.php:139
 msgctxt "ictuwp-plugin-laposta-signup-basic controller: error"
 msgid "Onbekende fout"
-msgstr ""
+msgstr "Onbekende fout"
 
 #: src/Controller/FormController.php:170
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
-msgid "Je bent aangemeld"
-msgstr ""
+msgid "Je bent aangemeld!"
+msgstr "Je bent aangemeld!"
 
 #: src/Controller/FormController.php:172
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
-msgid "Je staat op de lijst."
-msgstr ""
+msgid "Je staat op de lijst om de nieuwsbrief te ontvangen."
+msgstr "Je staat op de lijst om de nieuwsbrief te ontvangen."
 
 #: src/Controller/FormController.php:209
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
 msgid "Er ging iets mis."
-msgstr ""
+msgstr "Er ging iets mis."
 
-#: src/Controller/FormController.php:211
+#: src/Controller/FormController.php:211 templates/form/form.php:277
+#: templates/form/form.php:289
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
 msgid "moet ingevuld zijn."
-msgstr ""
+msgstr "moet ingevuld zijn."
 
 #: src/Controller/FormController.php:212
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
 msgid "Vul het veld aan en probeer het opnieuw."
-msgstr ""
+msgstr "Vul het veld aan en probeer het opnieuw."
 
 #: src/Controller/FormController.php:214
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
 msgid "moet een geldig e-mail adres zijn. B.v. 'naam@bedrijf.nl'."
-msgstr ""
+msgstr "moet een geldig e-mail adres zijn; voorbeeld: 'naam@bedrijf.nl'."
 
 #: src/Controller/FormController.php:215
 msgctxt "ictuwp-plugin-laposta-signup-basic form"
 msgid "Pas het veld aan en probeer het opnieuw."
-msgstr ""
+msgstr "Pas het veld aan en probeer het opnieuw."
 
 #: src/Controller/FormController.php:230
 msgctxt "ictuwp-plugin-laposta-signup-basic form submitbutton default"
 msgid "Aanmelden"
-msgstr ""
+msgstr "Aanmelden"
 
 #: templates/form/form.php:100
 msgctxt "ictuwp-plugin-laposta-signup-basic field: select option"
 msgid "Maak een keuze"
+msgstr "Maak een keuze"
+
+#: templates/form/form.php:292
+msgctxt "ictuwp-plugin-laposta-signup-basic validatie: ongeldig email"
+msgid ""
+"Je e-mail adres is ongeldig. Een geldig e-mail adres is b.v. 'je."
+"naam@bedrijf.nl'."
 msgstr ""
+"Je e-mail adres is ongeldig. Een geldig e-mail adres is b.v. ‘je."
+"naam@bedrijf.nl’."
+
+#: templates/form/form.php:334
+msgctxt "ictuwp-plugin-laposta-signup-basic form"
+msgid "Je aanmelding wordt verzonden..."
+msgstr "Je aanmelding wordt verzonden…"
 
 #. Plugin Name of the plugin/theme
 msgid "Laposta Signup Basic (ICTU WP corrections)"
-msgstr ""
+msgstr "Laposta Signup Basic (ICTU WP corrections)"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/ICTU/ictuwp-plugin-laposta-signup-basic"
@@ -91,11 +106,19 @@ msgid ""
 "aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met "
 "behulp van CSS."
 msgstr ""
+"(GC a11y improvements) Laposta is programma waarmee je gemakkelijk en snel "
+"nieuwsbrieven kunt maken en versturen. Met deze plugin kun je je "
+"aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met "
+"behulp van CSS."
 
 #. Author of the plugin/theme
 msgid "David Hund"
-msgstr ""
+msgstr "David Hund / Paul van Buuren"
 
 #. Author URI of the plugin/theme
 msgid "https://www.gebruikercentraal.nl"
-msgstr ""
+msgstr "https://www.gebruikercentraal.nl"
+
+#~ msgctxt "ictuwp-plugin-laposta-signup-basic form"
+#~ msgid "Je staat op de lijst."
+#~ msgstr "Je staat op de lijst."
