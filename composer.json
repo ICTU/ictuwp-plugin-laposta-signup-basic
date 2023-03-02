@@ -1,8 +1,8 @@
 {
   "name": "ICTU/ictuwp-plugin-laposta-signup-basic",
   "type": "wordpress-plugin",
-  "license": "GPL-3.0",
-  "description": "GC Fork of Laposta Signup Basic: allows to render a form from a Laposta list",
+  "license": "BSD-2-Clause",
+  "description": "GC Fork of Laposta Signup Basic: allows to render a form from a Laposta list, made more accessible",
   "homepage": "https://www.gebruikercentraal.nl",
   "authors": [
     {
