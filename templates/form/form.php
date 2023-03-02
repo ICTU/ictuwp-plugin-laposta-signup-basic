@@ -24,6 +24,20 @@
  * @var string $nonce
  *
  */
+
+/**
+ * NOTE: GC CHANGES / OVERRIDES
+ * We changed the following to (mainly) improve accessibility:
+ * Much rationale is explained in https://www.smashingmagazine.com/2023/02/guide-accessible-form-validation/
+ * - Replace `required` attribute with `aria-required="true"` on all required fields
+ * - Add aria-hidden to 'required' star
+ * - Add `aria-describedby` pointing to error message on all required fields
+ * - Add `aria-live="assertive"` to error messages
+ * 
+ * TODO:
+ * - Add basic JS validation (email and empty only?)
+ * - Add global GC classnames to all form fields
+ */
 ?>
 
 <?php if ($inlineCss): ?>
@@ -35,7 +49,7 @@
 
     <?php if ($globalError): ?>
         <div class="lsb-form-global-error <?php echo $globalErrorClass ?>">
-            <?php echo $globalError ?>
+            <p class="form-feedback-msg" aria-live="assertive"><?php echo $globalError ?></p>
         </div>
     <?php endif ?>
 
@@ -63,21 +77,23 @@
             }
             $fieldValue = $fieldValues[$field['key']]; // already sanitized
             $label = esc_html($field['name']);
-            if ($field['required']) {
-                $label.='*';
-            }
         ?>
         <div class="<?php echo $fieldWrapperClass ?> lsb-field-tag-<?php echo esc_attr($field['key']) ?> lsb-field-type-<?php echo $fieldType ?>">
 
             <?php if ($fieldType === 'select'): ?>
-                <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>"><?php echo $label ?></label>
+                <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>">
+                    <?php echo $label ?>
+                    <?php if ($field['required']): ?>
+                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                    <?php endif; ?>
+                </label>
                 <select
                     class="<?php echo $selectClass ?>"
                     id="<?php echo $uniqueFieldKey ?>"
                     name="<?php echo $fieldName ?>"
-                    <?php if ($field['required']): ?>required="required"<?php endif ?>
+                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo $uniqueFieldKey ?>__error-message"<?php endif ?>
                 >
-                    <option value="">Maak een keuze</option>
+                    <option value=""><?php _x('Maak een keuze', 'ictuwp-plugin-laposta-signup-basic field: select option', 'gctheme') ?></option>
                     <?php foreach ($field['options_full'] as $option): ?>
                         <option
                             value="<?php echo esc_html($option['value']) ?>"
@@ -86,9 +102,15 @@
                         </option>
                     <?php endforeach ?>
                 </select>
+                <?php if ($field['required']): ?><p class="<?php echo $selectClass ?>__error-message" id="<?php echo $uniqueFieldKey ?>__error-message" aria-live="assertive"></p><?php endif ?>
 
             <?php elseif ($fieldType === 'radio' || $fieldType === 'checkbox'): ?>
-                <p class="<?php echo $labelClass ?>"><?php echo $label ?></p>
+                <p class="<?php echo $labelClass ?>">
+                    <?php echo $label ?>
+                    <?php if ($field['required']): ?>
+                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                    <?php endif; ?>
+                </p>
                 <div class="<?php echo $checksWrapperClass ?>">
                     <?php foreach ($field['options_full'] as $check): ?>
                         <?php
@@ -121,17 +143,23 @@
                         $fieldType = 'text';
                     }
                 ?>
-                <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>"><?php echo $label ?></label>
+                <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>">
+                    <?php echo $label ?>
+                    <?php if ($field['required']): ?>
+                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                    <?php endif; ?>
+                </label>
                 <input
                     id="<?php echo $uniqueFieldKey ?>"
                     type="<?php echo $fieldType === 'date' ? 'text' : $fieldType // avoid browser specific behavior ?>"
                     class="<?php echo $inputClass ?> <?php if ($fieldType === 'date'): ?>js-lsb-datepicker<?php endif ?>"
                     value="<?php echo $fieldValue ?>"
                     name="<?php echo $fieldName ?>"
-                    <?php if ($field['required']): ?>required="required"<?php endif ?>
+                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo $uniqueFieldKey ?>__error-message"<?php endif ?>
                     <?php if ($fieldType === 'number'): ?>step="any"<?php endif ?>
                     <?php if ($fieldType === 'date'): ?>placeholder="dd-mm-jjjj"<?php endif ?>
                 >
+                <?php if ($field['required']): ?><p class="<?php echo $inputClass ?>__error-message" id="<?php echo $uniqueFieldKey ?>__error-message" aria-live="assertive"></p><?php endif ?>
             <?php endif ?>
         </div>
     <?php endforeach; ?>
@@ -141,6 +169,10 @@
 
     <?php $fieldName = "lsb[$listId][$fieldNameNonce]"; ?>
     <input type="hidden" name="<?php echo $fieldName ?>" value="<?php echo $nonce ?>">
+
+    <div class="form-feedback">
+        <p class="form-feedback-msg" aria-live="assertive"></p>
+    </div>
 
     <button class="<?php echo $submitButtonClass ?>" type="submit" name="lsb_form_submit" value="<?php echo $listId ?>"><?php echo $submitButtonText ?></button>
 

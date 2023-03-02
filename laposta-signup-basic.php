@@ -1,14 +1,14 @@
 <?php
 /**
- * @package Laposta Signup Basic
+ * @package Laposta Signup Basic (ICTU WP corrections)
  */
 /*
-Plugin Name: Laposta Signup Basic
-Plugin URI: http://laposta.nl/documentatie/wordpress.524.html
-Description: Laposta is programma waarmee je gemakkelijk en snel nieuwsbrieven kunt maken en versturen. Met deze plugin kun je je aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met behulp van CSS.
-Version: 1.4.0
-Author: Laposta - Roel Bousardt
-Author URI: https://laposta.nl/contact
+Plugin Name: Laposta Signup Basic (ICTU WP corrections)
+Plugin URI: https://github.com/ICTU/ictuwp-plugin-laposta-signup-basic
+Description: (GC a11y improvements) Laposta is programma waarmee je gemakkelijk en snel nieuwsbrieven kunt maken en versturen. Met deze plugin kun je je aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met behulp van CSS.
+Version: 1.1.0
+Author: David Hund
+Author URI: https://www.gebruikercentraal.nl
 License: BSD 2-Clause License
 */
 
