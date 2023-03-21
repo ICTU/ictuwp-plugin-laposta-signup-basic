@@ -272,9 +272,11 @@
             // Validate: Required fields
             function validateRequiredFields(el, opts) {
                 if (el.hasAttribute('required') || el.hasAttribute('aria-required')) {
+                    const _label  = document.querySelector('[for="' + el.id + '"]');
+                    const _name   = _label ? _label.innerText.replace(/\s?\*/, '') : 'Dit veld';
                     const isEmpty = el.value.replace(/\s/, '') === '';
                     formErrors.empty = isEmpty;
-                    updateFieldDOM(el, !isEmpty, "<?php echo _x('moet ingevuld zijn.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
+                    updateFieldDOM(el, !isEmpty, _name + " <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
                 } else {
                     // Not required, ignore
                     updateFieldDOM(el, true, '', opts);
@@ -286,10 +288,10 @@
                 const isEmpty = el.value.replace(/\s/, '') === '';
                 if (isEmpty) {
                     formErrors.email = true;
-                    updateFieldDOM(el, !isEmpty, "E-mailadres <?php echo _x('moet ingevuld zijn.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
+                    updateFieldDOM(el, !isEmpty, "E-mailadres <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
                 } else {
                     const isEmailValid = el.value.match(emailRegex);
-                    updateFieldDOM(el, isEmailValid, "<?php echo _x('Je e-mail adres is ongeldig. Een geldig e-mail adres is b.v. \'je.naam@bedrijf.nl\'.', 'ictuwp-plugin-laposta-signup-basic validatie: ongeldig email', 'gctheme') ?>", opts);
+                    updateFieldDOM(el, isEmailValid, "<?php echo _x('Je e-mailadres is ongeldig. Een geldig e-mailadres is b.v. \'je.naam@bedrijf.nl\'.', 'ictuwp-plugin-laposta-signup-basic validatie: ongeldig email', 'gctheme') ?>", opts);
                     formErrors.email = !isEmailValid;
                 }
             }
