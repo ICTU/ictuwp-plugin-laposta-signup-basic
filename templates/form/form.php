@@ -209,7 +209,7 @@
 
         const elForm   = document.querySelector('.lsb-list-id-<?php echo $listId ?>');
         const elEmail  = elForm.querySelector('[name="lsb[<?php echo $listId ?>][email]"]');
-        const arFields = Array.from(elForm.querySelectorAll('.lsb-form-input'));
+        const arFields = Array.from(elForm.querySelectorAll('.lsb-form-input[name]'));
 
         // We Require both the form and the email field to be present
         if ( elForm && elEmail ) {

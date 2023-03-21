@@ -6,7 +6,7 @@
 Plugin Name: Laposta Signup Basic (ICTU WP corrections)
 Plugin URI: https://github.com/ICTU/ictuwp-plugin-laposta-signup-basic
 Description: (GC a11y improvements) Laposta is programma waarmee je gemakkelijk en snel nieuwsbrieven kunt maken en versturen. Met deze plugin kun je je aanmeldformulieren eenvoudig aan je website toevoegen en aanpassen met behulp van CSS.
-Version: 1.4.1
+Version: 1.4.2
 Author: David Hund
 Author URI: https://www.gebruikercentraal.nl
 License: BSD 2-Clause License
