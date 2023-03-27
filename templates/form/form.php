@@ -87,14 +87,14 @@
                 <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>">
                     <?php echo $label ?>
                     <?php if ($field['required']): ?>
-                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                        <span class="<?php echo htmlspecialchars(trim($labelClass)) . '__required-star' ?>" aria-hidden="true">*</span>
                     <?php endif; ?>
                 </label>
                 <select
                     class="<?php echo $selectClass ?>"
                     id="<?php echo $uniqueFieldKey ?>"
                     name="<?php echo $fieldName ?>"
-                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo $uniqueFieldKey ?>__error-message"<?php endif ?>
+                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>"<?php endif ?>
                     <?php if ($field['is_error']): ?> aria-invalid="true"<?php endif ?>
                 >
                     <option value=""><?php _x('Maak een keuze', 'ictuwp-plugin-laposta-signup-basic field: select option', 'gctheme') ?></option>
@@ -106,13 +106,13 @@
                         </option>
                     <?php endforeach ?>
                 </select>
-                <?php if ($field['required']): ?><p class="<?php echo $selectClass ?>__error-message" id="<?php echo $uniqueFieldKey ?>__error-message" aria-live="assertive"></p><?php endif ?>
+                <?php if ($field['required']): ?><p class="<?php echo htmlspecialchars(trim($selectClass)) . '__error-message' ?>" id="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>" aria-live="assertive"></p><?php endif ?>
 
             <?php elseif ($fieldType === 'radio' || $fieldType === 'checkbox'): ?>
                 <p class="<?php echo $labelClass ?>">
                     <?php echo $label ?>
                     <?php if ($field['required']): ?>
-                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                        <span class="<?php echo htmlspecialchars(trim($labelClass)) . '__required-star' ?>" aria-hidden="true">*</span>
                     <?php endif; ?>
                 </p>
                 <div class="<?php echo $checksWrapperClass ?>">
@@ -150,7 +150,7 @@
                 <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>">
                     <?php echo $label ?>
                     <?php if ($field['required']): ?>
-                        <span class="<?php echo $labelClass ?>__required-star" aria-hidden="true">*</span>
+                        <span class="<?php echo htmlspecialchars(trim($labelClass)) . '__required-star' ?>" aria-hidden="true">*</span>
                     <?php endif; ?>
                 </label>
                 <input
@@ -159,12 +159,12 @@
                     class="<?php echo $inputClass ?> <?php if ($fieldType === 'date'): ?>js-lsb-datepicker<?php endif ?>"
                     value="<?php echo $fieldValue ?>"
                     name="<?php echo $fieldName ?>"
-                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo $uniqueFieldKey ?>__error-message"<?php endif ?>
+                    <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>"<?php endif ?>
                     <?php if ($field['is_error']): ?> aria-invalid="true" <?php endif ?>
                     <?php if ($fieldType === 'number'): ?>step="any"<?php endif ?>
                     <?php if ($fieldType === 'date'): ?>placeholder="dd-mm-jjjj"<?php endif ?>
                 >
-                <?php if ($field['required']): ?><p class="<?php echo $inputClass ?>__error-message" id="<?php echo $uniqueFieldKey ?>__error-message" aria-live="assertive"></p><?php endif ?>
+                <?php if ($field['required']): ?><p class="<?php echo htmlspecialchars(trim($inputClass)) . '__error-message' ?>" id="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>" aria-live="assertive"></p><?php endif ?>
             <?php endif ?>
         </div>
     <?php endforeach; ?>

@@ -1,5 +1,8 @@
 # Changelog
 
+* 1.4.3 - Prevent whitespace in HTML attributes
+* 1.4.2 - Only run JS validation on fields with a `name` attr
+* 1.4.1 - Better JS validation, consistent labels
 * 1.4.0 - Add JS validation
 * 1.3.0 - Add translatable strings. Add field error hints
 * 1.2.0 - Add `formID` to Form and `action`. Hide honeypot field from AT with `aria-hidden`
