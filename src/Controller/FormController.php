@@ -232,7 +232,7 @@ EOL;
         $this->addAssets($addDefaultStyling, $hasDateFields);
         return $this->getRenderedTemplate('/form/form.php', [
             'listId' => $listId,
-            'listFields' => $listFieldsCopy ?: $listFields,
+            'listFields' => ($listFieldsCopy ?? false) ?: $listFields,
             'formID' => 'form-' . $listId,
             'formClass' => $formClass,
             'fieldWrapperClass' => $fieldWrapperClass,

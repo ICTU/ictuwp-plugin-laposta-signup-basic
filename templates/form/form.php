@@ -81,7 +81,7 @@
             $fieldValue = $fieldValues[$field['key']]; // already sanitized
             $label = esc_html($field['name']);
         ?>
-        <div class="<?php echo $fieldWrapperClass ?> lsb-field-tag-<?php echo esc_attr($field['key']) ?> lsb-field-type-<?php echo $fieldType ?> <?php if ($field['is_error']): ?> is-invalid<?php endif ?>">
+        <div class="<?php echo $fieldWrapperClass ?> lsb-field-tag-<?php echo esc_attr($field['key']) ?> lsb-field-type-<?php echo $fieldType ?> <?php if ($field['is_error'] ?? false): ?> is-invalid<?php endif ?>">
 
             <?php if ($fieldType === 'select'): ?>
                 <label for="<?php echo $uniqueFieldKey ?>" class="<?php echo $labelClass ?>">
@@ -95,7 +95,7 @@
                     id="<?php echo $uniqueFieldKey ?>"
                     name="<?php echo $fieldName ?>"
                     <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>"<?php endif ?>
-                    <?php if ($field['is_error']): ?> aria-invalid="true"<?php endif ?>
+                    <?php if ($field['is_error'] ?? false): ?> aria-invalid="true"<?php endif ?>
                 >
                     <option value=""><?php _x('Maak een keuze', 'ictuwp-plugin-laposta-signup-basic field: select option', 'gctheme') ?></option>
                     <?php foreach ($field['options_full'] as $option): ?>
@@ -160,7 +160,7 @@
                     value="<?php echo $fieldValue ?>"
                     name="<?php echo $fieldName ?>"
                     <?php if ($field['required']): ?>aria-required="true" aria-describedby="<?php echo htmlspecialchars(trim($uniqueFieldKey)) . '__error-message' ?>"<?php endif ?>
-                    <?php if ($field['is_error']): ?> aria-invalid="true" <?php endif ?>
+                    <?php if ($field['is_error'] ?? false): ?> aria-invalid="true" <?php endif ?>
                     <?php if ($fieldType === 'number'): ?>step="any"<?php endif ?>
                     <?php if ($fieldType === 'date'): ?>placeholder="dd-mm-jjjj"<?php endif ?>
                 >
