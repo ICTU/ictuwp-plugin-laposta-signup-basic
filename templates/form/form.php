@@ -205,171 +205,175 @@
      */
     ?>
     <script>
-        const emailRegex = /\S+@\S+\.\S+/; // has @ and .
+        (function () {
 
-        const elForm   = document.querySelector('.lsb-list-id-<?php echo $listId ?>');
-        const elEmail  = elForm.querySelector('[name="lsb[<?php echo $listId ?>][email]"]');
-        const arFields = Array.from(elForm.querySelectorAll('.lsb-form-input[name]'));
+            const emailRegex = /\S+@\S+\.\S+/; // has @ and .
 
-        // We Require both the form and the email field to be present
-        if ( elForm && elEmail ) {
+            const elForm   = document.querySelector('.lsb-list-id-<?php echo $listId ?>');
+            const elEmail  = elForm.querySelector('[name="lsb[<?php echo $listId ?>][email]"]');
+            const arFields = Array.from(elForm.querySelectorAll('.lsb-form-input[name]'));
 
-            // Override native validation on form
-            elForm.setAttribute('novalidate', true);
+            // We Require both the form and the email field to be present
+            if ( elForm && elEmail ) {
 
-            // Laposta checks submit button name/value
-            // If we submit through JS we need to add this as a hidden input
-            const elSubmitButton = elForm.querySelector('[type="submit"]');
-            if (elSubmitButton) {
-                const elSubmitButtonHiddenInput = document.createElement('input');
-                elSubmitButtonHiddenInput.setAttribute('type', 'hidden');
-                elSubmitButtonHiddenInput.setAttribute('name', elSubmitButton.getAttribute('name'));
-                elSubmitButtonHiddenInput.setAttribute('value', elSubmitButton.getAttribute('value'));
-                elForm.appendChild(elSubmitButtonHiddenInput);
-            }
+                // Override native validation on form
+                elForm.setAttribute('novalidate', true);
 
-            const formErrors = {
-                email: false,
-                empty: false
-            };
-
-            let hasSubmitted = false;
-
-            // Initially run validation on all fields
-            arFields.forEach((elField) => {
-                const isEmailField = (elField.type === 'email' || elField.name.indexOf('[email]') > -1);
-
-                setupValidation({
-                    elField: elField,
-                    validateFn: isEmailField ? validateEmailFields : validateRequiredFields
-                });
-            });
-
-            // Initially run validation on all fields
-            function setupValidation({ elField, validateFn }) {
-                let touched = false;
-
-                elField.addEventListener('change', (e) => {
-                    touched = true; // mark it as touched so that on blur it shows the error.
-                });
-
-                elField.addEventListener('keyup', (e) => {
-                    // remove any error on keyup if existent
-                    validateFn(e.target, { removeOnly: true });
-
-                    if (hasSubmitted) {
-                        updateSubmitSummary();
-                    }
-                });
-
-                elField.addEventListener('blur', (e) => {
-                    if (!touched) return;
-                    // show error if touched
-                    validateFn(e.target, { live: true });
-                });
-            }
-
-            // Validate: Required fields
-            function validateRequiredFields(el, opts) {
-                if (el.hasAttribute('required') || el.hasAttribute('aria-required')) {
-                    const _label  = document.querySelector('[for="' + el.id + '"]');
-                    const _name   = _label ? _label.innerText.replace(/\s?\*/, '') : 'Dit veld';
-                    const isEmpty = el.value.replace(/\s/, '') === '';
-                    formErrors.empty = isEmpty;
-                    updateFieldDOM(el, !isEmpty, _name + " <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
-                } else {
-                    // Not required, ignore
-                    updateFieldDOM(el, true, '', opts);
+                // Laposta checks submit button name/value
+                // If we submit through JS we need to add this as a hidden input
+                const elSubmitButton = elForm.querySelector('[type="submit"]');
+                if (elSubmitButton) {
+                    const elSubmitButtonHiddenInput = document.createElement('input');
+                    elSubmitButtonHiddenInput.setAttribute('type', 'hidden');
+                    elSubmitButtonHiddenInput.setAttribute('name', elSubmitButton.getAttribute('name'));
+                    elSubmitButtonHiddenInput.setAttribute('value', elSubmitButton.getAttribute('value'));
+                    elForm.appendChild(elSubmitButtonHiddenInput);
                 }
-            }
 
-            // Validate: Email fields (always required)
-            function validateEmailFields(el, opts) {
-                const isEmpty = el.value.replace(/\s/, '') === '';
-                if (isEmpty) {
-                    formErrors.email = true;
-                    updateFieldDOM(el, !isEmpty, "E-mailadres <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
-                } else {
-                    const isEmailValid = el.value.match(emailRegex);
-                    updateFieldDOM(el, isEmailValid, "<?php echo _x('Je e-mailadres is ongeldig. Een geldig e-mailadres is b.v. \'je.naam@bedrijf.nl\'.', 'ictuwp-plugin-laposta-signup-basic validatie: ongeldig email', 'gctheme') ?>", opts);
-                    formErrors.email = !isEmailValid;
-                }
-            }
+                const formErrors = {
+                    email: false,
+                    empty: false
+                };
 
-            // Update DOM with proper validation attributes and messages
-            function updateFieldDOM(el, isValid, errorMessage, opts) {
-                const removeOnly = opts?.removeOnly;
-                const isLive = opts?.live;
-                const elWrapp = el.closest(".<?php echo $fieldWrapperClass ?>");
-                const elError = elWrapp.querySelector('.lsb-form-input__error-message');
+                let hasSubmitted = false;
 
-                if (isValid) {
-                    elWrapp.classList.remove('is-invalid');
-                    elError.innerText = ''; // It's valid
-                    el.removeAttribute('aria-invalid');
-                } else if (!removeOnly) {
-                    elWrapp.classList.add('is-invalid');
-                    el.setAttribute('aria-invalid', 'true');
-                    elError.setAttribute('aria-live', isLive ? 'assertive' : 'off');
-                    elError.innerText = errorMessage;
-                }
-            }
-
-            // This updates the form summary
-            // Not really necessary since we submit through PHP
-            // But this is where we'd use AJAX if we wanted to..
-            function updateSubmitSummary({ isSubmit } = {}) {
-                const elSummary = elForm.querySelector('.form-feedback');
-                const elSummaryMsg = elSummary.querySelector('.form-feedback-msg');
-
-                // Clear form feedback
-                elSummaryMsg.classList.remove('is-invalid');
-                elSummaryMsg.classList.remove('is-success');
-                elSummaryMsg.innerText = '';
-
-                const errorsState = Object.values(formErrors);
-                const isFormValid = !errorsState.includes(true);
-
-                if (!isFormValid) {
-                    elSummaryMsg.innerText = '';
-                } else if (isSubmit) {
-                    elSummaryMsg.innerText = "<?php echo _x('Je aanmelding wordt verzonden...', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>";
-                    elSummaryMsg.classList.add('is-success');
-
-                    // Finally submit the form
-                    elForm.submit();
-                }
-            }
-
-            elForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                hasSubmitted = true;
-
-                // Validate again
+                // Initially run validation on all fields
                 arFields.forEach((elField) => {
-                    if (elField.type === 'email' || elField.name.indexOf('[email]') > -1) {
-                        validateEmailFields(elField, { live: true });
-                    } else {
-                        validateRequiredFields(elField, { live: true });
-                    }
+                    const isEmailField = (elField.type === 'email' || elField.name.indexOf('[email]') > -1);
+
+                    setupValidation({
+                        elField: elField,
+                        validateFn: isEmailField ? validateEmailFields : validateRequiredFields
+                    });
                 });
 
-                if (formErrors.email) {
-                    // Focus email input
-                    elEmail.focus();
-                } else if(formErrors.empty) {
-                    // Focus 1st empty input
-                    for (const field of arFields) {
-                        if ((field.hasAttribute('required') || field.hasAttribute('aria-required')) && field.value.replace(/\s/, '') === '') {
-                            field.focus();
-                            break;
+                // Initially run validation on all fields
+                function setupValidation({ elField, validateFn }) {
+                    let touched = false;
+
+                    elField.addEventListener('change', (e) => {
+                        touched = true; // mark it as touched so that on blur it shows the error.
+                    });
+
+                    elField.addEventListener('keyup', (e) => {
+                        // remove any error on keyup if existent
+                        validateFn(e.target, { removeOnly: true });
+
+                        if (hasSubmitted) {
+                            updateSubmitSummary();
                         }
-                    }
-                } else {
-                    updateSubmitSummary({ isSubmit: true });
+                    });
+
+                    elField.addEventListener('blur', (e) => {
+                        if (!touched) return;
+                        // show error if touched
+                        validateFn(e.target, { live: true });
+                    });
                 }
-            });
-        }
+
+                // Validate: Required fields
+                function validateRequiredFields(el, opts) {
+                    if (el.hasAttribute('required') || el.hasAttribute('aria-required')) {
+                        const _label  = document.querySelector('[for="' + el.id + '"]');
+                        const _name   = _label ? _label.innerText.replace(/\s?\*/, '') : 'Dit veld';
+                        const isEmpty = el.value.replace(/\s/, '') === '';
+                        formErrors.empty = isEmpty;
+                        updateFieldDOM(el, !isEmpty, _name + " <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
+                    } else {
+                        // Not required, ignore
+                        updateFieldDOM(el, true, '', opts);
+                    }
+                }
+
+                // Validate: Email fields (always required)
+                function validateEmailFields(el, opts) {
+                    const isEmpty = el.value.replace(/\s/, '') === '';
+                    if (isEmpty) {
+                        formErrors.email = true;
+                        updateFieldDOM(el, !isEmpty, "E-mailadres <?php echo _x('is niet ingevuld. Vul dit veld in.', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>", opts);
+                    } else {
+                        const isEmailValid = el.value.match(emailRegex);
+                        updateFieldDOM(el, isEmailValid, "<?php echo _x('Je e-mailadres is ongeldig. Een geldig e-mailadres is b.v. \'je.naam@bedrijf.nl\'.', 'ictuwp-plugin-laposta-signup-basic validatie: ongeldig email', 'gctheme') ?>", opts);
+                        formErrors.email = !isEmailValid;
+                    }
+                }
+
+                // Update DOM with proper validation attributes and messages
+                function updateFieldDOM(el, isValid, errorMessage, opts) {
+                    const removeOnly = opts?.removeOnly;
+                    const isLive = opts?.live;
+                    const elWrapp = el.closest(".<?php echo $fieldWrapperClass ?>");
+                    const elError = elWrapp.querySelector('.lsb-form-input__error-message');
+
+                    if (isValid) {
+                        elWrapp.classList.remove('is-invalid');
+                        elError.innerText = ''; // It's valid
+                        el.removeAttribute('aria-invalid');
+                    } else if (!removeOnly) {
+                        elWrapp.classList.add('is-invalid');
+                        el.setAttribute('aria-invalid', 'true');
+                        elError.setAttribute('aria-live', isLive ? 'assertive' : 'off');
+                        elError.innerText = errorMessage;
+                    }
+                }
+
+                // This updates the form summary
+                // Not really necessary since we submit through PHP
+                // But this is where we'd use AJAX if we wanted to..
+                function updateSubmitSummary({ isSubmit } = {}) {
+                    const elSummary = elForm.querySelector('.form-feedback');
+                    const elSummaryMsg = elSummary.querySelector('.form-feedback-msg');
+
+                    // Clear form feedback
+                    elSummaryMsg.classList.remove('is-invalid');
+                    elSummaryMsg.classList.remove('is-success');
+                    elSummaryMsg.innerText = '';
+
+                    const errorsState = Object.values(formErrors);
+                    const isFormValid = !errorsState.includes(true);
+
+                    if (!isFormValid) {
+                        elSummaryMsg.innerText = '';
+                    } else if (isSubmit) {
+                        elSummaryMsg.innerText = "<?php echo _x('Je aanmelding wordt verzonden...', 'ictuwp-plugin-laposta-signup-basic form', 'gctheme') ?>";
+                        elSummaryMsg.classList.add('is-success');
+
+                        // Finally submit the form
+                        elForm.submit();
+                    }
+                }
+
+                elForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    hasSubmitted = true;
+
+                    // Validate again
+                    arFields.forEach((elField) => {
+                        if (elField.type === 'email' || elField.name.indexOf('[email]') > -1) {
+                            validateEmailFields(elField, { live: true });
+                        } else {
+                            validateRequiredFields(elField, { live: true });
+                        }
+                    });
+
+                    if (formErrors.email) {
+                        // Focus email input
+                        elEmail.focus();
+                    } else if(formErrors.empty) {
+                        // Focus 1st empty input
+                        for (const field of arFields) {
+                            if ((field.hasAttribute('required') || field.hasAttribute('aria-required')) && field.value.replace(/\s/, '') === '') {
+                                field.focus();
+                                break;
+                            }
+                        }
+                    } else {
+                        updateSubmitSummary({ isSubmit: true });
+                    }
+                });
+            }
+
+        })();
     </script>
 
 </form>
